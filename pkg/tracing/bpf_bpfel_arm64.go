@@ -54,7 +54,7 @@ type bpfSpecs struct {
 //
 // It can be passed ebpf.CollectionSpec.Assign.
 type bpfProgramSpecs struct {
-	TracePacket *ebpf.ProgramSpec `ebpf:"trace_packet"`
+	HandleSockSetState *ebpf.ProgramSpec `ebpf:"handle_sock_set_state"`
 }
 
 // bpfMapSpecs contains maps before they are loaded into the kernel.
@@ -92,12 +92,12 @@ func (m *bpfMaps) Close() error {
 //
 // It can be passed to loadBpfObjects or ebpf.CollectionSpec.LoadAndAssign.
 type bpfPrograms struct {
-	TracePacket *ebpf.Program `ebpf:"trace_packet"`
+	HandleSockSetState *ebpf.Program `ebpf:"handle_sock_set_state"`
 }
 
 func (p *bpfPrograms) Close() error {
 	return _BpfClose(
-		p.TracePacket,
+		p.HandleSockSetState,
 	)
 }
 

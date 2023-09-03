@@ -1,4 +1,0 @@
-# github.com/cilium/ebpf v0.10.0
-## explicit
-# github.com/google/uuid v1.3.0
-## explicit

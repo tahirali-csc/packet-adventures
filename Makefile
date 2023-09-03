@@ -1,5 +1,5 @@
 BIN_DIR:=bin
-BINARY_PATH:=${BIN_DIR}/caretta
+BINARY_PATH:=${BIN_DIR}/packet-adventures
 DOCKER_BIN:=docker
 BPF2GO_BINARY := ${BIN_DIR}/bpf2go
 BPF2GO_VERSION := 0.9.0
@@ -17,12 +17,13 @@ VERSION=1648566014
 ARCH=amd64 # amd64 or arm64
 
 .PHONY: build
-build: ${BIN_DIR} pkg/tracing/bpf_bpfel_x86.go cmd/caretta/caretta.go
-	GOOS=linux GOARCH=${TARGETARCH} CGO_ENABLED=0 go build -o ${BINARY_PATH} cmd/caretta/caretta.go
+build: ${BIN_DIR} pkg/tracing/bpf_bpfel_x86.go main.go
+	GOOS=linux GOARCH=${TARGETARCH} CGO_ENABLED=0 go build -o ${BINARY_PATH} main.go
 
 
 .PHONY: generate_ebpf
-generate_ebpf: ${BPF2GO_BINARY}_${BPF2GO_VERSION}
+# generate_ebpf: ${BPF2GO_BINARY}_${BPF2GO_VERSION}
+generate_ebpf:
 	go mod vendor
 	(cd ${REPODIR}/pkg/tracing && \
 		GOPACKAGE=tracing ${REPODIR}/${BPF2GO_BINARY}_${BPF2GO_VERSION} \
@@ -36,3 +37,5 @@ ${BPF2GO_BINARY}_${BPF2GO_VERSION}:
 	git clone -q --branch v${BPF2GO_VERSION} https://github.com/cilium/ebpf \
 		${CILIUM_EBPF_DIRECTORY} 2>/dev/null
 	
+	cd ${CILIUM_EBPF_DIRECTORY} && \
+		go build -o ${REPODIR}/${BPF2GO_BINARY}_${BPF2GO_VERSION} ./cmd/bpf2go

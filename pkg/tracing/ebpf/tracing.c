@@ -6,6 +6,6 @@
 char __license[] SEC("license") = "Dual MIT/GPL";
 
 SEC("tracepoint/sock/inet_sock_set_state")
-int trace_packet(){
+int handle_sock_set_state(){
     return 0;
 }
