@@ -1,16 +1,16 @@
 package main
 
 import (
+	"github.com/packet-adventures/pkg/adventures"
 	"os"
 	"os/signal"
 	"syscall"
-
-	tracing "github.com/packet-adventures/pkg/tracing"
 )
 
 func main() {
-	probes, _, err := tracing.LoadProbes()
-	if err != nil {
+
+	linkTracer := adventures.NewLinkTracer()
+	if err := linkTracer.Start(); err != nil {
 		panic(err)
 	}
 
@@ -18,5 +18,5 @@ func main() {
 	signal.Notify(osSignal, syscall.SIGINT, syscall.SIGTERM)
 	<-osSignal
 
-	probes.UnloadProbes()
+	linkTracer.Stop()
 }

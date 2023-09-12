@@ -61,6 +61,8 @@ type bpfProgramSpecs struct {
 //
 // It can be passed ebpf.CollectionSpec.Assign.
 type bpfMapSpecs struct {
+	Connections     *ebpf.MapSpec `ebpf:"connections"`
+	Ipv4Connections *ebpf.MapSpec `ebpf:"ipv4_connections"`
 }
 
 // bpfObjects contains all objects after they have been loaded into the kernel.
@@ -82,10 +84,15 @@ func (o *bpfObjects) Close() error {
 //
 // It can be passed to loadBpfObjects or ebpf.CollectionSpec.LoadAndAssign.
 type bpfMaps struct {
+	Connections     *ebpf.Map `ebpf:"connections"`
+	Ipv4Connections *ebpf.Map `ebpf:"ipv4_connections"`
 }
 
 func (m *bpfMaps) Close() error {
-	return _BpfClose()
+	return _BpfClose(
+		m.Connections,
+		m.Ipv4Connections,
+	)
 }
 
 // bpfPrograms contains all programs after they have been loaded into the kernel.

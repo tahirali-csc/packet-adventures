@@ -53,7 +53,7 @@ func LoadProbes() (Probes, *ebpf.Map, error) {
 		// Kprobe:     kp,
 		Tracepoint: tp,
 		BpfObjs:    objs,
-	}, nil, nil
+	}, objs.Connections, nil
 }
 
 func (objs *Probes) UnloadProbes() error {
