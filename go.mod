@@ -1,7 +1,12 @@
-module github.com/packet-adventures
+module packet-adventures
 
 go 1.20
 
-require github.com/cilium/ebpf v0.10.0
+require (
+	github.com/aquasecurity/libbpfgo v0.4.9-libbpf-1.2.0
+    github.com/aquasecurity/libbpfgo v0.4.9-libbpf-1.2.0
+	github.com/mozillazg/libbpfgo-tools/common v0.0.0
+	github.com/spf13/pflag v1.0.5
+)
 
-require golang.org/x/sys v0.2.0 // indirect
+replace github.com/mozillazg/libbpfgo-tools/common v0.0.0 => ./common
